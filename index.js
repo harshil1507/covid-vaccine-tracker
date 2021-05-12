@@ -41,29 +41,21 @@ cron.schedule("*/15 * * * *", () => {
       let availableCenters = [];
       centers.map((center) => {
         let availableDate = [];
-        center.sessions.map(
-          ({
-            available_capacity,
-            min_age_limit,
-            date,
-            name: centerName,
-            address: centerAddress,
-            pincode: centerPincode,
-            fee_type: fee,
-          }) => {
-            if (available_capacity > 0 && min_age_limit === 18) {
-              availableDate.push(date);
-            }
-            if (availableDate.length > 0)
-              availableCenters.push({
-                centerName,
-                centerAddress,
-                centerPincode,
-                fee,
-                datesAvailable: availableDate,
-              });
+        center.sessions.map((session) => {
+          if (session.available_capacity > 0 && session.min_age_limit === 18) {
+            availableDate.push(date);
           }
-        );
+          if (availableDate.length > 0) {
+            console.log(availableCenters);
+            availableCenters.push({
+              centerName: center.name,
+              centerAddress: center.address,
+              centerPincode: center.pincode,
+              fee: center.fee_type === "Free" ? 0 : center.vaccine_fees[0].fee,
+              datesAvailable: availableDate,
+            });
+          }
+        });
         availableDate = null;
       });
 

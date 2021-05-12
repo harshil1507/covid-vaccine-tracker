@@ -42,7 +42,7 @@ cron.schedule("*/15 * * * *", () => {
       centers.map((center) => {
         let availableDate = [];
         center.sessions.map((session) => {
-          if (session.available_capacity > -1 && session.min_age_limit === 18) {
+          if (session.available_capacity > 0 && session.min_age_limit === 18) {
             availableDate.push(date);
           }
           if (availableDate.length > 0) {

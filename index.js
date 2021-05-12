@@ -16,7 +16,6 @@ const transporter = nodemailer.createTransport({
 
 cron.schedule("*/30 * * * *", () => {
   const date = new Date();
-  let availableCenters = [];
   axios
     .get(baseUrl, {
       params: {
@@ -38,10 +37,11 @@ cron.schedule("*/30 * * * *", () => {
     })
     .then((response) => response.data)
     .then(({ centers }) => {
+      let availableCenters = [];
       centers.map((center) => {
         let availableDate = [];
         center.sessions.map((session) => {
-          if (session.available_capacity > 0 && session.min_age_limit) {
+          if (session.available_capacity > 0 && session.min_age_limit === 18) {
             availableDate.push(session.date);
           }
           if (availableDate.length > 0)
@@ -106,11 +106,13 @@ cron.schedule("*/30 * * * *", () => {
           if (err) console.log(err);
           else console.log(info);
         });
+        availableCenters = [];
       } else {
         console.log(
           "No vaccine slots found for 18+ . CRON job run time ",
           date
         );
+        availableCenters = [];
       }
     })
     .catch((error) => console.log(error));

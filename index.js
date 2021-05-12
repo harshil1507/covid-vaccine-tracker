@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-cron.schedule("*/1 * * * *", () => {
+cron.schedule("*/15 * * * *", () => {
   const date = new Date();
   axios
     .get(baseUrl, {

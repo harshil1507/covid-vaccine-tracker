@@ -46,7 +46,6 @@ cron.schedule("*/15 * * * *", () => {
             availableDate.push(date);
           }
           if (availableDate.length > 0) {
-            console.log(availableCenters);
             availableCenters.push({
               centerName: center.name,
               centerAddress: center.address,
